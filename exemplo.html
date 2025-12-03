@@ -1,0 +1,62 @@
+<script>
+    let livros = ["1984", "Dom Casmurro", "O Cortiço", "Grande Sertão Veredas"];
+    let categorias = ["Ficção Científica", "Romance", "Realismo", "Modernismo"];
+
+    // Processamento
+    function adicionarLivroFunc(nome, categoria) {
+        livros.push(nome);
+        categorias.push(categoria);
+        
+        return `Livro "${nome}" adicionado com sucesso!`;
+    }
+    function removerLivroFunc(nome) {
+        const indice = livros.indexOf(nome);
+        if (indice === -1) {
+            return `Livro "${nome}" não encontrado!`;
+        }
+        
+        const livroRemovido = livros.splice(indice, 1);
+        categorias.splice(indice, 1);
+        
+        return `Livro "${livroRemovido[0]}" removido com sucesso!`;
+    }
+    function listarLivros() {
+        let relatorio = "=== LIVROS CADASTRADOS ===\n\n";
+        for (let i = 0; i < categorias.length; i++) {
+            relatorio += `Livro: ${livros[i]} - Categoria: ${categorias[i]}\n`;
+        }
+        return relatorio;
+    }
+
+    // Exibição
+    let opcao = 1;
+    while (opcao > 0) {
+        opcao = parseInt(prompt(
+            "=== GERENCIAMENTO DE LIVROS ===\n\n" +
+            "1. Adicionar Livro\n" +
+            "2. Remover Livro\n" +
+            "3. Listar Livros\n" +
+            "0. Sair\n\n" +
+            "Escolha uma opção:"
+        ));
+        switch (opcao) {
+            case 1:
+                let nomeLivro = prompt("Digite o nome do livro:");
+                let categoriaLivro = prompt("Digite a categoria do livro:");
+                alert(adicionarLivroFunc(nomeLivro, categoriaLivro));
+                break;
+            case 2:
+                let nomeLivroRemover = prompt("Digite o nome do livro a ser removido:");
+                alert(removerLivroFunc(nomeLivroRemover));
+                break;
+            case 3:
+                alert(listarLivros());
+                break;
+            case 0:
+                alert("Saindo...");
+                break;
+            default:
+                alert("Opção inválida!");
+        }
+    }
+</script>

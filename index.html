@@ -1,0 +1,95 @@
+<script>
+   /* Problema 2: Gestor de Notas e Médias de Alunos
+Contexto: Um professor precisa de um sistema para registrar as notas dos seus 5 alunos em 4 bimestres, calcular médias e identificar alunos com desempenho baixo.
+Requisitos:
+Função para validar notas: Valide se a nota está entre 0 e 10 (use while).
+Função para adicionar notas: Insira as 4 notas de cada aluno usando for.
+Função para calcular média: Use for para somar as notas e calcular a média.
+Função para classificar desempenho: Use if...else aninhado:
+Média >= 9: Excelente
+Média >= 7: Bom
+Média >= 5: Regular
+Média < 5: Insuficiente
+Função para gerar relatório: Mostre o nome, notas, média e classificação de cada aluno.
+
+Dados Iniciais:
+
+let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"];
+
+let notas = [
+
+	// cada elemento é um array com 4 notas, ex: [8, 7.5, 9, 10]
+
+];
+
+DESAFIO: Implemente um sistema completo onde o professor possa cadastrar notas, remover um aluno se necessário, visualizar relatórios e tudo validado adequadamente.*/
+let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"];
+let notas = []; // será preenchido pelo usuário
+
+// 1) Função para validar nota (0 a 10)
+function validarNota(texto){
+    let nota = Number(prompt(texto));
+
+    while(isNaN(nota) || nota < 0 || nota > 10){
+        nota = Number(prompt(" Nota inválida! Digite uma nota entre 0 e 10:"));
+    }
+    return nota;
+}
+
+// 2) Função para adicionar notas para cada aluno
+function adicionarNotas(){
+    for(let i = 0; i < alunos.length; i++){
+        alert(`Digite as 4 notas de ${alunos[i]}`);
+        let notasAluno = [];
+
+        for(let j = 1; j <= 4; j++){
+            let n = validarNota(`Nota ${j} de ${alunos[i]}:`); 
+            notasAluno.push(n);
+        }
+
+        notas.push(notasAluno);
+    }
+}
+
+// 3) Função para calcular média
+function calcularMedia(lista){
+    let soma = 0;
+
+    for(let valor of lista){
+        soma += valor;
+    }
+    return soma / lista.length;
+}
+
+// 4) Função para classificar desempenho
+function classificar(media){
+    if(media >= 9) return "Excelente";
+    else if(media >= 7) return "Bom";
+    else if(media >= 5) return "Regular";
+    else return "Insuficiente";
+}
+
+// 5) Função para mostrar relatório
+function relatorio(){
+    console.clear();
+    console.log("===== RELATÓRIO FINAL =====\n");
+
+    for(let i = 0; i < alunos.length; i++){
+        let media = calcularMedia(notas[i]);
+        let situacao = classificar(media);
+
+        console.log(`
+Aluno: ${alunos[i]}
+Notas: ${notas[i].join(", ")}
+Média: ${media.toFixed(2)}
+Classificação: ${situacao}
+------------------------------`);
+    }
+}
+
+// Execução
+adicionarNotas();
+relatorio();
+
+
+</script>
