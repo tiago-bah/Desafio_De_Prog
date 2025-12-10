@@ -1,18 +1,8 @@
 <script>
-let qtdAlunos = 5;
-let alunos = [];
-let notas = [];
+let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"]; 
+let notas = []; // as notas serão digitadas pelo usuário
 
-// Solicita os nomes dos alunos
-for (let i = 0; i < qtdAlunos; i++) {
-    let nome = prompt(`Digite o nome do aluno ${i+1}:`);
-    while (!nome || nome.trim() === "") {
-        nome = prompt("Nome inválido! Digite novamente:");
-    }
-    alunos.push(nome);
-}
-
-// Função valida nota
+// Função para validar a nota
 function validarNota(nota) {
     while (nota < 0 || nota > 10 || isNaN(nota)) {
         nota = Number(prompt("Nota inválida! Digite um valor entre 0 e 10:"));
@@ -20,7 +10,7 @@ function validarNota(nota) {
     return nota;
 }
 
-// Coleta as notas dos alunos
+// Coleta 4 notas para cada aluno
 for (let i = 0; i < alunos.length; i++) {
     let notasAluno = [];
     for (let j = 0; j < 4; j++) {
@@ -32,22 +22,21 @@ for (let i = 0; i < alunos.length; i++) {
 }
 
 // Calcula média
-function calcularMedia(arr) {
+function calcularMedia(arrey) {
     let soma = 0;
-    for (let n of arr) soma += n;
-    return soma / arr.length;
+    for (let n of arrey) soma += n;
+    return soma / arrey.length;
 }
 
-// Classifica desempenho
+// Classificação
 function classificar(media) {
-    if (media >= 9) return "Excelente ";
-    else if (media >= 7) return "Bom ";
-    else if (media >= 5) return "Regular ";
-    else return "Insuficiente ";
+    if (media >= 9) return "Excelente";
+    else if (media >= 7) return "Bom";
+    else if (media >= 5) return "Regular";
+    else return "Insuficiente";
 }
 
-// Exibe resultado
-
+// Exibe resultados
 for (let i = 0; i < alunos.length; i++) {
     let media = calcularMedia(notas[i]).toFixed(2);
     let status = classificar(media);
