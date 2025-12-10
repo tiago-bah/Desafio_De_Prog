@@ -52,9 +52,9 @@ for (let i = 0; i < alunos.length; i++) {
     let media = calcularMedia(notas[i]).toFixed(2);
     let status = classificar(media);
 
-    document.write(`<strong>Aluno:</strong> ${alunos[i]}<br>`);
-    document.write(`<strong>Notas:</strong> ${notas[i].join(", ")}<br>`);
-    document.write(`<strong>Média:</strong> ${media}<br>`);
-    document.write(`<strong>Desempenho:</strong> ${status}<br>`);
+    document.write(`Aluno: ${alunos[i]}<br>`);
+    document.write(`Notas: ${notas[i].join(", ")}<br>`);
+    document.write(`Média: ${media}<br>`);
+    document.write(`Desempenho: ${status}<br>`);
 }
 </script>
