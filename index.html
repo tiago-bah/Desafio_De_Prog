@@ -1,49 +1,140 @@
-<script>
-let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"]; 
-let notas = []; // as notas serão digitadas pelo usuário
+//  MENU 
+function menu() {
+    let opcao;
 
-// Função para validar a nota
+    do {
+        opcao = prompt(
+`SISTEMA DE NOTAS - MENU PRINCIPAL
+1 - Cadastrar notas
+2 - Remover aluno
+3 - Gerar relatório
+0 - Sair`
+        );
+
+        if (opcao === "1") {
+            adicionarNotas();
+        } 
+        else if (opcao === "2") {
+            removerAluno();
+        } 
+        else if (opcao === "3") {
+            gerarRelatorio();
+        } 
+        else if (opcao === "0") {
+            alert("Sistema encerrado.");
+        } 
+        else {
+            alert("Opção inválida!");
+        }
+
+    } while (opcao !== "0");
+}
+
+
+
+//  REMOVER ALUNO 
+function removerAluno() {
+    let nome = prompt("Nome do aluno a remover:");
+
+    let indice = alunos.indexOf(nome);
+
+    if (indice !== -1) {
+        alunos.splice(indice, 1);
+        notas.splice(indice, 1);
+        alert(`Aluno ${nome} removido com sucesso.`);
+    } else {
+        alert("Aluno não encontrado.");
+    }
+}
+
+
+
+// 3º INICIAR SISTEMA 
+menu();
+
+
+
+//  DADOS INICIAIS 
+let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"];
+let notas = [];
+
+
+
+//  VALIDAR NOTA 
 function validarNota(nota) {
-    while (nota < 0 || nota > 10 || isNaN(nota)) {
-        nota = Number(prompt("Nota inválida! Digite um valor entre 0 e 10:"));
+    while (isNaN(nota) || nota < 0 || nota > 10) {
+        nota = parseFloat(prompt("Nota inválida! Digite entre 0 e 10:"));
     }
     return nota;
 }
 
-// Coleta 4 notas para cada aluno
-for (let i = 0; i < alunos.length; i++) {
-    let notasAluno = [];
-    for (let j = 0; j < 4; j++) {
-        let nota = Number(prompt(`Digite a nota ${j+1} de ${alunos[i]}:`));
-        nota = validarNota(nota);
-        notasAluno.push(nota);
+
+
+//  ADICIONAR NOTAS
+function adicionarNotas() {
+    notas = [];
+
+    for (let i = 0; i < alunos.length; i++) {
+        let notasAluno = [];
+
+        alert(`Digite as notas de ${alunos[i]}`);
+
+        for (let b = 0; b < 4; b++) {
+            let nota = parseFloat(prompt(`Nota do ${b + 1}º bimestre:`));
+            nota = validarNota(nota);
+            notasAluno.push(nota);
+        }
+
+        notas.push(notasAluno);
     }
-    notas.push(notasAluno);
 }
 
-// Calcula média
-function calcularMedia(arrey) {
+
+
+//  CALCULAR MÉDIA 
+function calcularMedia(notasAluno) {
     let soma = 0;
-    for (let n of arrey) soma += n;
-    return soma / arrey.length;
+
+    for (let nota of notasAluno) {
+        soma += nota;
+    }
+
+    return soma / notasAluno.length;
 }
 
-// Classificação
+
+
+//  CLASSIFICAR 
 function classificar(media) {
-    if (media >= 9) return "Excelente";
-    else if (media >= 7) return "Bom";
-    else if (media >= 5) return "Regular";
-    else return "Insuficiente";
+    if (media >= 9) {
+        return "Excelente";
+    } else if (media >= 7) {
+        return "Bom";
+    } else if (media >= 5) {
+        return "Regular";
+    } else {
+        return "Insuficiente";
+    }
 }
 
-// Exibe resultados
-for (let i = 0; i < alunos.length; i++) {
-    let media = calcularMedia(notas[i]).toFixed(2);
-    let status = classificar(media);
 
-    document.write(`Aluno: ${alunos[i]}<br>`);
-    document.write(`Notas: ${notas[i].join(", ")}<br>`);
-    document.write(`Média: ${media}<br>`);
-    document.write(`Desempenho: ${status}<br>`);
+
+//  RELATÓRIO 
+function gerarRelatorio() {
+    if (notas.length === 0) {
+        alert("Nenhuma nota cadastrada!");
+        return;
+    }
+
+    document.write("RELATÓRIO DE NOTAS<br><br>");
+
+    for (let i = 0; i < alunos.length; i++) {
+        let media = calcularMedia(notas[i]);
+        let classificacao = classificar(media);
+
+        document.write("Aluno: " + alunos[i] + "<br>");
+        document.write("Notas: " + notas[i].join(", ") + "<br>");
+        document.write("Média: " + media.toFixed(2) + "<br>");
+        document.write("Classificação: " + classificacao + "<br><br>");
+    }
 }
-</script>
