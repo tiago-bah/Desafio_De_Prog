@@ -8,7 +8,7 @@ function menu() {
 1 - Cadastrar notas
 2 - Remover aluno
 3 - Gerar relatório
-0 - Sair`
+
         );
 
         if (opcao === "1") {
@@ -20,14 +20,13 @@ function menu() {
         else if (opcao === "3") {
             gerarRelatorio();
         } 
-        else if (opcao === "0") {
-            alert("Sistema encerrado.");
+       
         } 
         else {
             alert("Opção inválida!");
         }
 
-    } while (opcao !== "0");
+    
 }
 
 
