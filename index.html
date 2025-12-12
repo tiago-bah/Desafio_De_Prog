@@ -1,116 +1,49 @@
 <script>
-    let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"];
-let notas = []; 
+let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"]; 
+let notas = []; // as notas serão digitadas pelo usuário
 
-// MENU
-function mostrarMenu() {
-    let opcao = prompt(`
-MENU DO SISTEMA
-
-1 - Cadastrar notas
-2 - Remover aluno
-3 - Ver relatório
-
-Escolha uma opção:
-`);
-    return opcao;
-}
-
-//  SISTEMA PRINCIPAL 
-let opcaoEscolhida = mostrarMenu();
-
-if (opcaoEscolhida == 1) {
-    cadastrarNotas();
-} else if (opcaoEscolhida == 2) {
-    removerAluno();
-} else if (opcaoEscolhida == 3) {
-    gerarRelatorio();
-} else {
-    alert("Opção inválida!");
-}
-
-// Função que valida notas entre 0 e 10
+// Função para validar a nota
 function validarNota(nota) {
     while (nota < 0 || nota > 10 || isNaN(nota)) {
-        nota = Number(prompt("Nota inválida! Digite novamente (0 a 10):"));
+        nota = Number(prompt("Nota inválida! Digite um valor entre 0 e 10:"));
     }
     return nota;
 }
 
-// Função para cadastrar as 4 notas de cada aluno
-function cadastrarNotas() {
-    for (let i = 0; i < alunos.length; i++) {
-        let notasAluno = [];
-
-        for (let j = 0; j < 4; j++) {
-            let n = Number(prompt("Digite a nota " + (j + 1) + " do aluno " + alunos[i] + ":"));
-            n = validarNota(n);
-            notasAluno.push(n);
-        }
-
-        notas[i] = notasAluno;
+// Coleta 4 notas para cada aluno
+for (let i = 0; i < alunos.length; i++) {
+    let notasAluno = [];
+    for (let j = 0; j < 4; j++) {
+        let nota = Number(prompt(`Digite a nota ${j+1} de ${alunos[i]}:`));
+        nota = validarNota(nota);
+        notasAluno.push(nota);
     }
-
-    alert("Notas cadastradas com sucesso!");
+    notas.push(notasAluno);
 }
 
-// Calcula média de um array de notas
-function calcularMedia(notasAluno) {
+// Calcula média
+function calcularMedia(arrey) {
     let soma = 0;
-
-    for (let i = 0; i < notasAluno.length; i++) {
-        soma += notasAluno[i];
-    }
-
-    return soma / notasAluno.length;
+    for (let n of arrey) soma += n;
+    return soma / arrey.length;
 }
 
-// Classifica o desempenho por média
-function classificarDesempenho(media) {
-    if (media >= 9) {
-        return "Excelente";
-    } else if (media >= 7) {
-        return "Bom";
-    } else if (media >= 5) {
-        return "Regular";
-    } else {
-        return "Insuficiente";
-    }
+// Classificação
+function classificar(media) {
+    if (media >= 9) return "Excelente";
+    else if (media >= 7) return "Bom";
+    else if (media >= 5) return "Regular";
+    else return "Insuficiente";
 }
 
-// Remove um aluno pela posição
-function removerAluno() {
-    let nome = prompt("Digite o nome do aluno que deseja remover:");
+// Exibe resultados
+for (let i = 0; i < alunos.length; i++) {
+    let media = calcularMedia(notas[i]).toFixed(2);
+    let status = classificar(media);
 
-    let posicao = alunos.indexOf(nome);
-
-    if (posicao === -1) {
-        alert("Aluno não encontrado!");
-    } else {
-        alunos.splice(posicao, 1);
-        notas.splice(posicao, 1);
-        alert("Aluno removido com sucesso!");
-    }
+    document.write(`Aluno: ${alunos[i]}<br>`);
+    document.write(`Notas: ${notas[i].join(", ")}<br>`);
+    document.write(`Média: ${media}<br>`);
+    document.write(`Desempenho: ${status}<br>`);
 }
-
-// Relatório completo
-function gerarRelatorio() {
-    let texto = "";
-
-    for (let i = 0; i < alunos.length; i++) {
-        let media = calcularMedia(notas[i]);
-        let situacao = classificarDesempenho(media);
-
-        texto +=
-            "Aluno: " + alunos[i] +
-            "\nNotas: " + notas[i].join(", ") +
-            "\nMédia: " + media.toFixed(2) +
-            "\nClassificação: " + situacao +
-            "\n\n";
-    }
-
-    alert(texto);
-}
-
-
 </script>
