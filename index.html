@@ -1,110 +1,72 @@
-//  MENU 
-function menu() {
-    let opcao;
+<script>
+    let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"];
+let notas = []; 
 
-    do {
-        opcao = prompt(
-`SISTEMA DE NOTAS - MENU PRINCIPAL
+// MENU
+function mostrarMenu() {
+    let opcao = prompt(`
+MENU DO SISTEMA
+
 1 - Cadastrar notas
 2 - Remover aluno
-3 - Gerar relatório
+3 - Ver relatório
 
-        );
-
-        if (opcao === "1") {
-            adicionarNotas();
-        } 
-        else if (opcao === "2") {
-            removerAluno();
-        } 
-        else if (opcao === "3") {
-            gerarRelatorio();
-        } 
-       
-        } 
-        else {
-            alert("Opção inválida!");
-        }
-
-    
+Escolha uma opção:
+`);
+    return opcao;
 }
 
+//  SISTEMA PRINCIPAL 
+let opcaoEscolhida = mostrarMenu();
 
-
-//  REMOVER ALUNO 
-function removerAluno() {
-    let nome = prompt("Nome do aluno a remover:");
-
-    let indice = alunos.indexOf(nome);
-
-    if (indice !== -1) {
-        alunos.splice(indice, 1);
-        notas.splice(indice, 1);
-        alert(`Aluno ${nome} removido com sucesso.`);
-    } else {
-        alert("Aluno não encontrado.");
-    }
+if (opcaoEscolhida == 1) {
+    cadastrarNotas();
+} else if (opcaoEscolhida == 2) {
+    removerAluno();
+} else if (opcaoEscolhida == 3) {
+    gerarRelatorio();
+} else {
+    alert("Opção inválida!");
 }
 
-
-
-// 3º INICIAR SISTEMA 
-menu();
-
-
-
-//  DADOS INICIAIS 
-let alunos = ["João", "Maria", "Pedro", "Ana", "Carlos"];
-let notas = [];
-
-
-
-//  VALIDAR NOTA 
+// Função que valida notas entre 0 e 10
 function validarNota(nota) {
-    while (isNaN(nota) || nota < 0 || nota > 10) {
-        nota = parseFloat(prompt("Nota inválida! Digite entre 0 e 10:"));
+    while (nota < 0 || nota > 10 || isNaN(nota)) {
+        nota = Number(prompt("Nota inválida! Digite novamente (0 a 10):"));
     }
     return nota;
 }
 
-
-
-//  ADICIONAR NOTAS
-function adicionarNotas() {
-    notas = [];
-
+// Função para cadastrar as 4 notas de cada aluno
+function cadastrarNotas() {
     for (let i = 0; i < alunos.length; i++) {
         let notasAluno = [];
 
-        alert(`Digite as notas de ${alunos[i]}`);
-
-        for (let b = 0; b < 4; b++) {
-            let nota = parseFloat(prompt(`Nota do ${b + 1}º bimestre:`));
-            nota = validarNota(nota);
-            notasAluno.push(nota);
+        for (let j = 0; j < 4; j++) {
+            let n = Number(prompt("Digite a nota " + (j + 1) + " do aluno " + alunos[i] + ":"));
+            n = validarNota(n);
+            notasAluno.push(n);
         }
 
-        notas.push(notasAluno);
+        notas[i] = notasAluno;
     }
+
+    alert("Notas cadastradas com sucesso!");
 }
 
-
-
-//  CALCULAR MÉDIA 
+// Calcula média de um array de notas
 function calcularMedia(notasAluno) {
     let soma = 0;
 
-    for (let nota of notasAluno) {
-        soma += nota;
+    for (let i = 0; i < notasAluno.length; i++) {
+        soma += notasAluno[i];
     }
 
     return soma / notasAluno.length;
 }
 
-
-
-//  CLASSIFICAR 
-function classificar(media) {
+// Classifica o desempenho por média
+function classificarDesempenho(media) {
     if (media >= 9) {
         return "Excelente";
     } else if (media >= 7) {
@@ -116,24 +78,39 @@ function classificar(media) {
     }
 }
 
+// Remove um aluno pela posição
+function removerAluno() {
+    let nome = prompt("Digite o nome do aluno que deseja remover:");
 
+    let posicao = alunos.indexOf(nome);
 
-//  RELATÓRIO 
-function gerarRelatorio() {
-    if (notas.length === 0) {
-        alert("Nenhuma nota cadastrada!");
-        return;
+    if (posicao === -1) {
+        alert("Aluno não encontrado!");
+    } else {
+        alunos.splice(posicao, 1);
+        notas.splice(posicao, 1);
+        alert("Aluno removido com sucesso!");
     }
+}
 
-    document.write("RELATÓRIO DE NOTAS<br><br>");
+// Relatório completo
+function gerarRelatorio() {
+    let texto = "";
 
     for (let i = 0; i < alunos.length; i++) {
         let media = calcularMedia(notas[i]);
-        let classificacao = classificar(media);
+        let situacao = classificarDesempenho(media);
 
-        document.write("Aluno: " + alunos[i] + "<br>");
-        document.write("Notas: " + notas[i].join(", ") + "<br>");
-        document.write("Média: " + media.toFixed(2) + "<br>");
-        document.write("Classificação: " + classificacao + "<br><br>");
+        texto +=
+            "Aluno: " + alunos[i] +
+            "\nNotas: " + notas[i].join(", ") +
+            "\nMédia: " + media.toFixed(2) +
+            "\nClassificação: " + situacao +
+            "\n\n";
     }
+
+    alert(texto);
 }
+
+
+</script>
